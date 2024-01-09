@@ -7,13 +7,13 @@ const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
 
-// Подключение к MongoDB
+// Connectiing to MongoDB
 mongoose.connect('mongodb://localhost:27017/registration', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
 
-// Определение схемы и модели пользователя
+// Defining the user's schema and model
 const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
@@ -27,7 +27,7 @@ app.use(session({ secret: 'your-secret-key', resave: true, saveUninitialized: tr
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
-// Регистрационная форма
+// Registration Form
 app.get('/register', (req, res) => {
     res.render('register');
 });
@@ -48,7 +48,7 @@ app.post('/register', async(req, res) => {
     }
 });
 
-// Форма входа
+// Loginning Form
 app.get('/login', (req, res) => {
     res.render('login');
 });
@@ -74,12 +74,6 @@ app.post('/login', async(req, res) => {
     } catch (error) {
         res.send('Error logging in');
     }
-});
-
-// Выход
-app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.redirect('/');
 });
 
 app.use((req, res) => {
